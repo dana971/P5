@@ -11,17 +11,10 @@ fetch (" http://localhost:3000/api/products/"+ id)
 
     .then(function (kanap){
 
-        let eltImage =  document.querySelector("div.item__img");
-        eltImage.innerHTML = `<img src="${kanap.imageUrl}" alt="${kanap.altTxt}">`;
-
-        let eltTitle =  document.querySelector("#title");
-        eltTitle.textContent = `${kanap.name}`;
-
-        let eltPrice =  document.querySelector("#price");
-        eltPrice.textContent = `${kanap.price}`;
-
-        let eltDescription =  document.querySelector("#description");
-        eltDescription.textContent = `${kanap.description}`;
+        createProduct("#title", kanap.name,true);
+        createProduct("#price", kanap.price, true);
+        createProduct("#description", kanap.description, true);
+        createProduct("div.item__img", `<img src="${kanap.imageUrl}" alt="${kanap.altTxt}">`, false);
 
         let eltColors =  document.querySelector("select#colors");
         for (let i in kanap.colors ){
@@ -32,6 +25,22 @@ fetch (" http://localhost:3000/api/products/"+ id)
         }
 
     });
+
+/**
+ * Creation des éléménts prix title description sur la page produit
+ * @param selectors selecteurs css
+ * @param valeurs valeur a insérer
+ * @param isTextContent booléens true si textContent
+ */
+function createProduct (selectors, valeurs, isTextContent) {
+    let element = document.querySelector(selectors);
+   if (isTextContent){
+       element.textContent = `${valeurs}`;
+   }else{
+       element.innerHTML = `${valeurs}`;
+   }
+
+}
 
 let cartElement = document.querySelector("#addToCart");
 cartElement.addEventListener("click",function () {
@@ -80,10 +89,7 @@ cartElement.addEventListener("click",function () {
         }
     } // fin callback Event listener panier
 
-
 );
-
-// DISPLAY KANAP
 
 
 
