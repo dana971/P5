@@ -157,6 +157,79 @@ const deleteItem = async() =>{
 
 
 
+const isInputValide = (form) => {
+    let valid = true;
+
+    for (let input of form) {
+        if (input.id === "order") {
+            continue;
+        }
+        let textRGEX = /^[a-zA-Z]+$/;
+        if (input.id === "email") {
+            textRGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        }
+
+        const inputValue = input.value;
+        let error = input.nextElementSibling;
+        const inputTestResult = textRGEX.test(inputValue);
+
+        if (inputTestResult === false) {
+            error.innerText = "Veuillez verifier votre saisie"
+            valid = false;
+            //Afficher un message d'erreur si pour les champs mal renseigné
+            input.reportValidity();
+        } else {
+            error.innerText = "";
+
+
+        }
+    }
+    return valid;
+}
+
+
+const formValidation = async () => {
+    let form = document.querySelectorAll("form input");
+    let buttonOrder = document.getElementById("order");
+    let resultInputValide;
+    buttonOrder.addEventListener("click",function (e)
+    {
+        resultInputValide = isInputValide(form);
+        if(resultInputValide===false){
+            e.preventDefault();
+        }
+    });
+
+
+//Stocker mon return de is InputValide
+//Si valide === true faire traitement
+//Else isInputValid
+
+        /*    if (valid === true){
+            contactObject = {
+                contact: {
+                    firstName: form.firstName,
+                    lastName: string,
+                    address: string,
+                    city: string,
+                    email: string
+                },
+                products: [string]
+            }
+            }
+        //});
+    });*/
+}
+
+
+
+
+
+//Récupérer les données saisies par l'utilisateur
+
+//Méthode POST sur l'API
+//Faire un Objet Contact
+
 
 
 
@@ -170,7 +243,10 @@ const deleteItem = async() =>{
     await createTotal("#totalQuantity",totalQty());
     await updateValue();
     await deleteItem();
+    await formValidation();
 }) ();
+
+
 
 
 
