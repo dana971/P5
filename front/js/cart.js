@@ -16,7 +16,7 @@ function storageCart() {
 const getCartProduct = async()=>{
     let cart = storageCart();
     let kanaps = [];
-    //Pour chaque produit de mon panier, je récupere le produit +son id
+    //Pour chaque produit de mon panier, je récupère le produit +son id
     //Puis je push dans le tableau kanaps
     for (let product of cart) {
         let kanap = await getKanapById(ENDPOINT, product.id);
@@ -133,24 +133,16 @@ const deleteItem = async() =>{
     let deleteButtonTab = document.querySelectorAll(".deleteItem");
     let i = 0;
     let cart = storageCart();
+
     for ( let deleteButton of deleteButtonTab){
         deleteButton.addEventListener("click",function (){
             const article = deleteButton.closest('article.cart__item');
             const articleId = article.dataset.id;
             const articleColor = article.dataset.color;
-            /*
-            console.log(articleId+" "+ articleColor);
-            console.log(cart)
-            for ( let product of cart){
-              console.log(product);
-              //console.log(product.id !== articleId || product.color !== articleColor);
-            }
-            */
-            cart = cart.filter(product => product.id !== articleId || product.color !== articleColor);
+
+            cart = cart.filter(product => product.id !== articleId || (product.id === articleId && product.color !== articleColor));
             window.localStorage.setItem("storageCart", JSON.stringify(cart));
-            createTotal("#totalPrice", totalPrice());
-            createTotal("#totalQuantity",totalQty());
-            article.remove();
+            window.location.reload()
         });
     }
 }
@@ -188,50 +180,51 @@ const isInputValide = (form) => {
 }
 
 
+const getOrderObject = async (form) => {
+    console.log(form);
+    let cartProduct = storageCart();
+    let cart = [];
+
+    for (let product of cartProduct){
+        cart.push(product.id);
+    }
+
+
+    let order = {
+        contact: {
+            firstName: form[0].value,
+            lastName: form[1].value,
+            address: form[2].value,
+            city: form[3].value,
+            email: form[4].value,
+        },
+
+        products: cart,
+    };
+    return order;
+}
+
+
 const formValidation = async () => {
     let form = document.querySelectorAll("form input");
     let buttonOrder = document.getElementById("order");
     let resultInputValide;
-    buttonOrder.addEventListener("click",function (e)
-    {
+    buttonOrder.addEventListener("click",async (e) => {
         resultInputValide = isInputValide(form);
-        if(resultInputValide===false){
+        if (!resultInputValide) {
             e.preventDefault();
+        } else {
+            let order = await getOrderObject(form);
+            console.log(order);
+
         }
     });
-
-
-//Stocker mon return de is InputValide
-//Si valide === true faire traitement
-//Else isInputValid
-
-        /*    if (valid === true){
-            contactObject = {
-                contact: {
-                    firstName: form.firstName,
-                    lastName: string,
-                    address: string,
-                    city: string,
-                    email: string
-                },
-                products: [string]
-            }
-            }
-        //});
-    });*/
 }
-
-
-
-
 
 //Récupérer les données saisies par l'utilisateur
 
 //Méthode POST sur l'API
 //Faire un Objet Contact
-
-
-
 
 //Execution de la function getCartProduct
 (async () => {
