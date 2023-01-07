@@ -114,7 +114,6 @@ const updateValue = async()=>{
             for( let item of cart){
                 if (item.color === articleColor && item.id === articleId ){
                     item.qty = Number(value);
-                    console.log(item.qty);
                     window.localStorage.setItem("storageCart", JSON.stringify(cart));
                     createTotal("#totalPrice", totalPrice());
                     createTotal("#totalQuantity",totalQty());
@@ -179,9 +178,8 @@ const isInputValide = (form) => {
     return valid;
 }
 
-
+//Faire un Objet Contact
 const getOrderObject = async (form) => {
-    console.log(form);
     let cartProduct = storageCart();
     let cart = [];
 
@@ -204,7 +202,7 @@ const getOrderObject = async (form) => {
     return order;
 }
 
-
+//Récupérer les données saisies par l'utilisateur
 const formValidation = async () => {
     let form = document.querySelectorAll("form input");
     let buttonOrder = document.getElementById("order");
@@ -215,16 +213,30 @@ const formValidation = async () => {
             e.preventDefault();
         } else {
             let order = await getOrderObject(form);
-            console.log(order);
-
+            await postOrder(order);
         }
     });
 }
 
-//Récupérer les données saisies par l'utilisateur
 
 //Méthode POST sur l'API
-//Faire un Objet Contact
+const postOrder = async (order) =>  {
+    await fetch('http://localhost:3000/api/products/order',{
+        method : 'POST',
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(order)
+    })
+        .then((response) => response.json())
+        .then(await function (response) {
+            console.log(response);
+            window.location.href="./confirmation.html";
+        });
+
+}
+
 
 //Execution de la function getCartProduct
 (async () => {
