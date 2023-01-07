@@ -221,18 +221,20 @@ const formValidation = async () => {
 
 //Méthode POST sur l'API
 const postOrder = async (order) =>  {
-    await fetch('http://localhost:3000/api/products/order',{
-        method : 'POST',
+    await fetch('http://localhost:3000/api/products/order', {
+        method: 'POST',
         headers: {
             Accept: 'application/json',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(order)
     })
-        .then((response) => response.json())
-        .then(await function (response) {
+        .then((response)=> response.json())
+
+        .then( function (response) {
             console.log(response);
-            window.location.href="./confirmation.html";
+            console.log(response);
+            window.location.href="./confirmation.html?orderId=" + response.orderId;
         });
 
 }
