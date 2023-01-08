@@ -1,12 +1,22 @@
 const ENDPOINT = "http://localhost:3000/api/products"
- // function to fetch all Kanaps
-/* getKanaps renvoi le resultat du fetch au format json -res.json()- */
+
+/**
+ * Renvoi les kanaps depuis l'API au format jSON
+ * @param endpoint appel à l'API
+ * @returns Array[Object]
+ */
  const getKanaps = async (endpoint = ENDPOINT) => {
     return await (await fetch(endpoint)).json();
  }
 
- // Function to display Kanaps
+
+
+/**
+ * Fonction qui permet d'afficher les Kanaps sur le DOM
+ * @param kanaps
+ */
  const displayKanaps = (kanaps) => {
+     //itération sur chaque produit du tableau
     kanaps.forEach(kanap => {
         document.querySelector("#items").innerHTML += `<a href="./product.html?id=${kanap._id}">
                 <article>
@@ -17,10 +27,11 @@ const ENDPOINT = "http://localhost:3000/api/products"
             </a>`;
     })
  }
-// Execute Script Functions
+
+// Execution de la fonction
  (async () => {
-     displayKanaps(await getKanaps())
-  // displayKanaps(await res.jon())
+     const kanaps = await getKanaps();
+     displayKanaps(kanaps);
  })()
 
 
