@@ -190,9 +190,14 @@ const isInputValide = (form) => {
         if (input.id === "order") {
             continue;
         }
-        let textRGEX = /^[a-zA-Z]+$/;
+        let textRGEX = /^[A-zÀ-ú]+$/;
+
         if (input.id === "email") {
             textRGEX = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        }
+
+        if(input.id === "address" || input.id === "city"){
+            textRGEX = /^[A-zÀ-ú0-9\s,.'-]{3,}$/;
         }
 
         const inputValue = input.value;
@@ -247,10 +252,10 @@ const formValidation = async () => {
     let buttonOrder = document.getElementById("order");
     let resultInputValide;
     buttonOrder.addEventListener("click",async (e) => {
+        e.preventDefault();
         resultInputValide = isInputValide(form);
         const cartEmpty = isCartEmpty();
         if (!resultInputValide || cartEmpty) {
-            e.preventDefault();
             if(cartEmpty){
                 alert("Votre panier est vide");
             }
