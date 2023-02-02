@@ -10,7 +10,6 @@ const ENDPOINT = "http://localhost:3000/api/products"
  }
 
 
-
 /**
  * Fonction qui permet d'afficher les Kanaps sur le DOM
  * @param kanaps

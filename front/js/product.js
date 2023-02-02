@@ -51,7 +51,6 @@ function createProduct (selectors, valeurs, isTextContent) {
  * @returns {boolean}
  */
 const checkQty = (qty) => {
-    console.log(qty)
     return (qty > 0 && qty < 100) ? true : false;
 }
 
@@ -65,7 +64,7 @@ const checkColor = (color) => {
 }
 
 /**
- *Execution de la fonction pour l'ajout d'un produit dans le panier
+ *Event listener surveillant pour l'ajout d'un produit dans le panier
  * @type {Element}
  */
 let cartElement = document.querySelector("#addToCart");
@@ -73,40 +72,27 @@ cartElement.addEventListener("click",function () {
         // panier existe ou pas
         let cartStorage = localStorage.getItem('storageCart');
         let cartJson = JSON.parse(cartStorage);
-        let product;
+        let product = {
+            id: id,
+            color: getColor(),
+            qty: getQty(),
+        };
 
         if(checkQty(getQty()) && checkColor(getColor())) {
             // panier n'existe pas
             if (cartStorage === null) {
-
-                // créer le panier et ajouter le produit au panier
-                product = {
-                    id: id,
-                    color: getColor(),
-                    qty: getQty(),
-                }
+                // On ajoute le produit au panier
                 addProductToCart(product);
-
             } else {
-                // panier existe
-                // le produit qu'on ajoute est nouveau ou pas
-                product = {
-                    id : id,
-                    color: getColor(),
-                    qty: getQty(),
-                }
-
+                // Le panier existe
                 // on incrémente la qté
-                let foundProduct = cartJson.filter(p => {
+                const findProduct = cartJson.find(p => {
                     return p.id === product.id && p.color === product.color;
-                } );
+                });
 
-                if (foundProduct.length !== 0 ){ // produit existe
+                if (findProduct !== undefined){ // produit existe
                     // find product in cartjson
-                    const aproduct = cartJson.find(p => {
-                        return p.id === product.id && p.color === product.color;
-                    })
-                    aproduct.qty = Number(product.qty) + Number(foundProduct[0].qty);
+                    findProduct.qty = Number(product.qty) + Number(findProduct.qty);
                     window.localStorage.setItem("storageCart", JSON.stringify(cartJson));
                 } else {
                     cartJson.push(product)
@@ -114,7 +100,7 @@ cartElement.addEventListener("click",function () {
                 }
             }
         } else {
-            alert("Veuillez  Choisir une Quantité ou une Couleur Valide");
+            alert("Veuillez choisir une quantité ou une couleur valide");
         }
 
     } // fin Event listener du panier

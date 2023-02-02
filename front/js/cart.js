@@ -123,7 +123,6 @@ const updateValue = async()=>{
     let qtyValue = document.querySelectorAll(".itemQuantity");
 
 //Faire une boucle pour que l'écoute se fasse sur chaque élément du panier
-    let i = 0;
     let cart = storageCart();
     for ( let input of qtyValue){
         //Ecoute les changements sur l'élément input
@@ -149,7 +148,6 @@ const updateValue = async()=>{
  */
 const deleteItem = async() =>{
     let deleteButtonTab = document.querySelectorAll(".deleteItem");
-    let i = 0;
     let cart = storageCart(); // Récupération du Local Storage
 
     for ( let deleteButton of deleteButtonTab){
@@ -177,7 +175,7 @@ const isCartEmpty = () =>{
     return false;
 }
 
-//TODO : mettre a jour la REGEX pour l'input adresse
+
 /**
  * Fonction qui permet de vérifier si le formulaire est Valide
  * @param form
