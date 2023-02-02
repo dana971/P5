@@ -177,7 +177,7 @@ const isCartEmpty = () =>{
     return false;
 }
 
-//TODO : mettre a jour la REGEX pour l'input adresse
+
 /**
  * Fonction qui permet de vérifier si le formulaire est Valide
  * @param form
