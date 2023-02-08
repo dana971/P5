@@ -27,7 +27,7 @@ const ENDPOINT = "http://localhost:3000/api/products"
     })
  }
 
-// Execution de la fonction
+// Execution asynchrone des fonctions
  (async () => {
      const kanaps = await getKanaps();
      displayKanaps(kanaps);
