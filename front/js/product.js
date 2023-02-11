@@ -74,13 +74,13 @@ const addProductToCart = () => {
                 window.localStorage.setItem("storageCart", JSON.stringify(cart));
             } else {
                 // Le panier existe
-                // on incrémente la qté
+                // find product in cartjson
                 const findProduct = cartJson.find(p => {
                     return p.id === product.id && p.color === product.color;
                 });
 
                 if (findProduct !== undefined) { // produit existe
-                    // find product in cartjson
+                    // on incrémente la qté
                     findProduct.qty = Number(product.qty) + Number(findProduct.qty);
                     window.localStorage.setItem("storageCart", JSON.stringify(cartJson));
                 } else {
@@ -88,6 +88,7 @@ const addProductToCart = () => {
                     window.localStorage.setItem("storageCart", JSON.stringify(cartJson));
                 }
             }
+            alert('Panier mis à jour');
         } else {
             alert("Veuillez choisir une quantité ou une couleur valide");
         }

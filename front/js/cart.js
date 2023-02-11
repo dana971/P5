@@ -127,18 +127,26 @@ const updateValue = async()=>{
     for ( let input of qtyValue){
         //Ecoute les changements sur l'élément input
         input.addEventListener("change", function(){
-            const article = input.closest('article.cart__item');
-            const articleId = article.dataset.id;
-            const articleColor = article.dataset.color;
-            const value = input.value;
-            for( let item of cart){
-                if (item.color === articleColor && item.id === articleId ){
-                    item.qty = Number(value);
-                    window.localStorage.setItem("storageCart", JSON.stringify(cart));
-                    createTotal("#totalPrice", totalPrice());
-                    createTotal("#totalQuantity",totalQty());
+            //Verification de la quantité saisie sur les inputs
+            if(input.value <= 0 || input.value > 100){
+                alert('Quantité saisie incorrect');
+            } else {
+                const article = input.closest('article.cart__item');
+                const articleId = article.dataset.id;
+                const articleColor = article.dataset.color;
+                const value = input.value;
+
+                for( let item of cart){
+                    if (item.color === articleColor && item.id === articleId ){
+                        item.qty = Number(value);
+                        window.localStorage.setItem("storageCart", JSON.stringify(cart));
+                        createTotal("#totalPrice", totalPrice());
+                        createTotal("#totalQuantity",totalQty());
+                    }
                 }
             }
+
+
         });
     }
 }
